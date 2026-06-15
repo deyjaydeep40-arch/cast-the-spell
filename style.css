@@ -1,0 +1,238 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Georgia', serif;
+}
+
+body {
+    background: #0c0714;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f3e8ff;
+    overflow: hidden;
+    position: relative;
+}
+
+#magic-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through canvas to UI buttons */
+    z-index: 99;
+}
+
+.bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('https://unsplash.com');
+    background-size: cover;
+    background-position: center;
+    filter: brightness(20%) blur(6px);
+    z-index: -1;
+    transition: background-image 0.8s ease-in-out;
+}
+
+.game-container {
+    background: rgba(13, 7, 22, 0.88);
+    backdrop-filter: blur(25px);
+    border: 2px solid #b646ff;
+    box-shadow: 0 0 35px rgba(182, 70, 255, 0.5), inset 0 0 20px rgba(182, 70, 255, 0.2);
+    border-radius: 24px;
+    padding: 40px;
+    width: 90%;
+    max-width: 480px;
+    text-align: center;
+    z-index: 10;
+}
+
+.screen {
+    transition: all 0.4s ease;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.witch-portrait {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px auto;
+    border-radius: 50%;
+    border: 3px solid #00ffcc;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5), inset 0 0 15px rgba(0, 255, 204, 0.3);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.witch-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(110%);
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.crystal-ball:hover {
+    transform: scale(1.08) rotate(3deg);
+    border-color: #b646ff;
+    box-shadow: 0 0 35px #b646ff, inset 0 0 20px rgba(182, 70, 255, 0.6);
+}
+
+.crystal-ball:hover img {
+    transform: scale(1.15);
+    filter: grayscale(0%) contrast(125%) saturate(120%);
+}
+
+.guess-portrait {
+    border-color: #ff007f;
+    box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+}
+
+.genie-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px #b646ff;
+}
+
+h1 {
+    font-size: 2.2rem;
+    color: #ffffff;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px #b646ff;
+}
+
+p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    color: #d1bbf2;
+    line-height: 1.6;
+}
+
+.warning-text {
+    color: #ff3b30;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 59, 48, 0.4);
+    animation: pulse 1s infinite alternate;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: #1a0f30;
+    border-radius: 4px;
+    margin-bottom: 35px;
+    border: 1px solid rgba(182, 70, 255, 0.3);
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #b646ff 0%, #00ffcc 100%);
+    box-shadow: 0 0 10px #00ffcc;
+    transition: width 0.5s ease;
+}
+
+#question-number {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #00ffcc;
+    margin-bottom: 8px;
+}
+
+#question-text {
+    font-size: 1.6rem;
+    color: #f8f3ff;
+    margin-bottom: 40px;
+    min-height: 70px;
+    line-height: 1.4;
+}
+
+.btn {
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #7b2cbf 0%, #5a189a 100%);
+    color: #ffffff;
+    border: 1px solid #b646ff;
+    box-shadow: 0 4px 15px rgba(123, 44, 191, 0.5);
+}
+
+.primary-btn:hover {
+    background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 22px rgba(182, 70, 255, 0.7);
+}
+
+.option-btn {
+    background: rgba(26, 15, 48, 0.6);
+    color: #e9d5ff;
+    border: 1px solid rgba(182, 70, 255, 0.4);
+}
+
+.option-btn:hover {
+    background: rgba(182, 70, 255, 0.2);
+    border-color: #00ffcc;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 255, 204, 0.3);
+    transform: scale(1.01);
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(1.03); opacity: 1; }
+}
+
+.animate-pulse {
+    animation: pulse 2.5s infinite ease-in-out;
+}
+/* 1. Hide the ugly broken image text */
+.witch-portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(15%) contrast(110%);
+    transition: transform 0.5s ease, filter 0.5s ease;
+    
+    /* This makes broken alternative text invisible */
+    text-indent: -10000px; 
+}
+
+/* 2. Give the empty circle a cool, dark magic placeholder look */
+.witch-portrait {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 25px auto;
+    border-radius: 50%;
+    border: 3px solid #00ffcc;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5), inset 0 0 15px rgba(0, 255, 204, 0.3);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Adds a dark smokey gradient inside the circle while images load */
+    background: radial-gradient(circle, #1a0f30 30%, #0c0714 100%); 
+}
